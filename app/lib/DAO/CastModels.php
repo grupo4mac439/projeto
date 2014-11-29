@@ -1,7 +1,6 @@
 <?php namespace lib\DAO;
 
 use ReflectionObject;
-use Cliente;
 
 class CastModels {
 	

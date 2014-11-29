@@ -6,7 +6,7 @@ class Cliente {
 
 	private static $dao;
 
-	static $table = 'users';
+	static $tabela = 'users';
 
 	protected $campos = [ 'username', 'email' ];
 
@@ -14,65 +14,67 @@ class Cliente {
 		Cliente::$dao = new SuperDAO('Cliente');
 	}
 
-	public static function all () {
-		return Cliente::$dao->all( Cliente::$table );
+	public static function todos () {
+		return Cliente::$dao->todos( Cliente::$tabela );
 	}
 
-	public static function find ( $id ) {
-		
-		$result = Cliente::$dao->findById ( $id );
-		return $result;
+	public static function encontrar ( $id ) {
+		return Cliente::$dao->encontrarPorId ( $id );
 	}
 
-	public static function findByFields( $fields, $values) {
-		return Cliente::$dao->findByFields( $fields, $values);
+	public static function encontrarPorCampos( $campos, $valores) {
+		return Cliente::$dao->encontrarPorCampos( $campos, $valores);
 	}
 
-	private function update( $id, $values) {
-		Cliente::$dao->update( $this->campos, $values, $id );
+	private function atualizar( $id, $valores) {
+		Cliente::$dao->atualizar( $this->campos, $valores, $id );
 		
 		return 0;
 	}
 
-	private function insert($values) {
+	private function inserir($valores) {
 		
 		$posicao = array_search('email', $this->campos);
-		$email = $values[ $posicao ];
-		$results = Cliente::findByFields( array('email'), array($email) );
+		$email = $valores[ $posicao ];
+		$resultados = Cliente::encontrarPorCampos( array('email'), array($email) );
 		
-		if (!empty($results))
+		if (!empty($resultados))
 			return -1;
 
-		Cliente::$dao->insert( $this->campos, $values);
+		Cliente::$dao->inserir( $this->campos, $valores);
 		
-		$results = Cliente::findByFields( array('email'), array($email) );
+		$resultados = Cliente::findByFields( array('email'), array($email) );
 		
-		$result = array_shift($results);
+		$resultado = array_shift($resultados);
 
-		$this->id = $result->id;
+		$this->id = $resultado->id;
 		
 		return 0;
 	}
 
 	public function save() {
 
-		$values = $this->getValues();
+		$valores = $this->pegaValores();
 
 		if( isset($this->id) ) 
-			return $this->update($this->id, $values);
+			return $this->atualizar($this->id, $valores);
 		
-		return $this->insert($values);
+		return $this->inserir($valores);
 
 	}
 
-	private function getValues() {
+	private function pegaValores() {
 		
-		$values = array();
+		$valores = array();
 
 		foreach ($this->campos as $campo)
-			array_push($values, $this->{$campo});
+			array_push($valores, $this->{$campo});
 
-		return $values;
+		return $valores;
+	}
+
+	public function conta() {
+		return Cliente::$dao->pertenceA('Contas', 'conta_id', $this->id);
 	}
 
 }

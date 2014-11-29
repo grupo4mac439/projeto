@@ -4,134 +4,182 @@ use DB;
 
 class SuperDAO {
 
-	private $model;
+	private $modelo;
 
-	private $table;
+	private $tabela;
 
-	public function __construct($model) {
-		$this->model = $model;
+	public function __construct($modelo) {
+		$this->modelo = $modelo;
 	}
 
-	public function findById( $id ) {
+	public function encontrarPorId( $id ) {
 		
-		$model = $this->model;
+		$modelo = $this->modelo;
 
-		$table = $model::$table;
+		$tabela = $modelo::$tabela;
 		
-		$results =  DB::select('select * from ' . $table . ' where id = ?', array($id));
+		$resultados =  DB::select('select * from ' . $tabela . ' where id = ?', array($id));
 		
-		$result = array_shift($results);
+		$resultado = array_shift($resultados);
 		
-		if ($result == NULL)
+		if ($resultado == NULL)
 			return NULL;
 
-		return CastModels::castModel($model, $result);
+		return CastModels::castModel($modelo, $resultado);
 	}
 
-	public function all() {
+	public function todos() {
 		
-		$model = $this->model;
+		$modelo = $this->modelo;
 
-		$table = $model::$table;
+		$tabela = $modelo::$tabela;
 
-		$results = DB::select('select * from ' . $table);
+		$resultados = DB::select('select * from ' . $tabela);
 		
-		return CastModels::castModels($model, $results);
+		return CastModels::castModels($modelo, $resultados);
 	}
 
-	public function findByFields($fields, $values) {
+	public function encontrarPorCampos($campos, $valores) {
 		
-		$model = $this->model;
+		$modelo = $this->modelo;
 
-		$table = $model::$table;
+		$tabela = $modelo::$tabela;
 
-		$statement = 'select * from ' . $table . ' where';
+		$query = 'select * from ' . $tabela . ' where';
 				
-		$this->getFieldOperator($fields, $field, $operator);
+		$this->pegaCampoOperador($campos, $campo, $operador);
 
-		$statement .= ' ' . $field . ' ' . $operator .' ?';
+		$query .= ' ' . $campo . ' ' . $operador .' ?';
 		
-		while ( current( $fields ) ) {
+		while ( current( $campos ) ) {
 
-			$this->getFieldOperator ( $fields, $field, $operator );
+			$this->pegaCampoOperador ( $campos, $campo, $operador );
 
-			$statement .= ' and ' . $field . ' ' . $operator .' ?';
+			$query .= ' and ' . $campo . ' ' . $operador .' ?';
 		}
 		
-		$results = DB::select ( $statement, $values );	
+		$resultados = DB::select ( $query, $valores );	
 		
-		return CastModels::castModels($model, $results);
+		return CastModels::castModels($modelo, $resultados);
 	}
 
-	private function getFieldOperator(&$fields, &$field, &$operator) {
+	private function pegaCampoOperador(&$campos, &$campo, &$operador) {
 		
-		if ( is_int ( key ( $fields ) ) ) //não é indexado por chave
+		if ( is_int ( key ( $campos ) ) ) //não é indexado por chave
 		{
-			$field = current ( $fields ); //o campo é o valor do array na posição atual
-			$operator = '='; //atribuimos então o operador = como padrão 
+			$campo = current ( $campos ); //o campo é o valor do array na posição atual
+			$operador = '='; //atribuimos então o operador = como padrão 
 		}
 		else {
-			$field = key ( $fields );
-			$operator = current ( $fields );
+			$campo = key ( $campos );
+			$operador = current ( $campos );
 		}
 
-		next($fields);
+		next($campos);
 	}
 
-	public function update($fields, $values, $id) {
+	public function atualizar($campos, $valores, $id) {
 		
-		$model = $this->model;
+		$modelo = $this->modelo;
 
-		$table = $model::$table;
+		$tabela = $modelo::$tabela;
 		
-		$statement = 'update '. $table . ' set ';
+		$query = 'update '. $tabela . ' set ';
 		
-		$field = current( $fields );
+		$campo = current( $campos );
 		
-		next( $fields );
+		next( $campos );
 		
-		$statement .=  $field . ' = ? ';
+		$query .=  $campo . ' = ? ';
 		
-		while( $field =  current( $fields ) ) {
+		while( $campo =  current( $campos ) ) {
 		
-			$statement .= ', ' . $field . ' = ? ';
+			$query .= ', ' . $campo . ' = ? ';
 		
-			next( $fields );
+			next( $campos );
 		}
 		
-		$statement .= 'where id = ?';
+		$query .= 'where id = ?';
 		
-		array_push($values, $id);
+		array_push($valores, $id);
 		
-		DB::update($statement, $values);
+		DB::update($query, $valores);
 	}
 
-	public function insert($fields, $values) {
+	public function inserir($campos, $valores) {
 	
-		$model = $this->model;
+		$modelo = $this->modelo;
 
-		$table = $model::$table;
+		$tabela = $modelo::$tabela;
 
-		$statement = 'insert into ' . $table . ' ( ';
+		$query = 'insert into ' . $tabela . ' ( ';
 		
-		$statement .= current( $fields );
+		$query .= current( $campos );
 		
-		$values_itens = '?';
+		$valores_itens = '?';
 		
-		next( $fields );
+		next( $campos );
 		
-		while ( $field = current( $fields ) )  {
+		while ( $campo = current( $campos ) )  {
 		
-			$statement .= ' , ' . $field;
+			$query .= ' , ' . $campo;
 		
-			$values_itens .= ' , ?';
+			$valores_itens .= ' , ?';
 		
-			next( $fields );
+			next( $campos );
 		}
 		
-		$statement .= ' ) values ( ' . $values_itens . ' )';
+		$query .= ' ) valores ( ' . $valores_itens . ' )';
 	 	
-	 	DB::insert($statement, $values);
+	 	DB::insert($query, $valores);
 	
+	}
+
+	public function pertenceA( $modeloDono, $fk, $id ) {
+		
+		$modelo = $this->modelo;
+
+		$tabela = $modelo::$tabela;		
+
+		$tabelaDono = $modeloDono::$tabela;
+		
+		$query = 'select * from ' . $tabelaDono . ' where id 
+						in (select ' . $fk . ' from ' . $tabela . ' where id = ?)';
+		
+		$resultados = DB::select($query, array($id));
+		
+		$resultado = array_shift($resultados);
+		
+		if ($resultado == NULL)
+			return NULL;
+
+		return CastModels::castModel($modeloDono, $resultado);		
+	}
+
+	public function temMuitos( $modeloObjeto, $fk, $id ) {
+
+		$tabelaObjeto = $modeloObjeto::$tabela;
+		
+		$query = 'select * from ' . $tabelaObjeto . ' where ' . $fk . ' = ?';
+
+		$resultados = DB::select($query, array($id));
+	
+		return CastModels::castModels($modeloObjeto, $resultados);
+	}
+
+	public function temUm( $modeloObjeto, $fk, $id ) {
+
+		$tabelaObjeto = $modeloObjeto::$tabela;
+		
+		$query = 'select * from ' . $tabelaObjeto . ' where ' . $fk . ' = ?';
+
+		$resultados = DB::select($query, array($id));
+	
+		$resultado = array_shift($resultados);
+		
+		if ($resultado == NULL)
+			return NULL;
+
+		return CastModels::castModel($modeloObjeto, $resultado);		
 	}
 }

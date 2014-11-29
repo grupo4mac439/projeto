@@ -13,10 +13,13 @@
 
 Route::get('/', function()
 {
-	$cliente = new Cliente();
-	$cliente->username = 'jonshon';
-	$cliente->email = 'otwedsfsdfsdfsd@email.com';
-	return $cliente->save();
+	$retorno = Contas::find(1)->clientes();
+	return var_dump($retorno);
+	//return var_dump( Cliente::findByFields( array('id' => '>'), array('1') ) );
+	// $cliente = new Cliente();
+	// $cliente->username = 'jonshon';
+	// $cliente->email = 'otwedsfsdfsdfsd@email.com';
+	// return $cliente->save();
 });
 
 Route::get('login', function() { return View::make('login'); });
