@@ -4,35 +4,66 @@ use DB;
 
 class SuperDAO {
 
-	public static function findById( $table, $id ) {
-		$result =  DB::select('select * from ' . $table . ' where id = ?', array($id));
-		return array_shift($result);
+	private $model;
+
+	private $table;
+
+	public function __construct($model) {
+		$this->model = $model;
 	}
 
-	public static function all( $table ) {
-		return DB::select('select * from ' . $table);
+	public function findById( $id ) {
+		
+		$model = $this->model;
+
+		$table = $model::$table;
+		
+		$results =  DB::select('select * from ' . $table . ' where id = ?', array($id));
+		
+		$result = array_shift($results);
+		
+		if ($result == NULL)
+			return NULL;
+
+		return CastModels::castModel($model, $result);
 	}
 
-	public static function findByFields($table, $fields, $values) {
+	public function all() {
+		
+		$model = $this->model;
+
+		$table = $model::$table;
+
+		$results = DB::select('select * from ' . $table);
+		
+		return CastModels::castModels($model, $results);
+	}
+
+	public function findByFields($fields, $values) {
+		
+		$model = $this->model;
+
+		$table = $model::$table;
 
 		$statement = 'select * from ' . $table . ' where';
 				
-		SuperDAO::getFieldOperator($fields, $field, $operator);
+		$this->getFieldOperator($fields, $field, $operator);
 
 		$statement .= ' ' . $field . ' ' . $operator .' ?';
 		
 		while ( current( $fields ) ) {
 
-			SuperDAO::getFieldOperator ( $fields, $field, $operator );
+			$this->getFieldOperator ( $fields, $field, $operator );
 
 			$statement .= ' and ' . $field . ' ' . $operator .' ?';
 		}
 		
-		return DB::select ( $statement, $values );
+		$results = DB::select ( $statement, $values );	
 		
+		return CastModels::castModels($model, $results);
 	}
 
-	private static function getFieldOperator(&$fields, &$field, &$operator) {
+	private function getFieldOperator(&$fields, &$field, &$operator) {
 		
 		if ( is_int ( key ( $fields ) ) ) //não é indexado por chave
 		{
@@ -45,5 +76,62 @@ class SuperDAO {
 		}
 
 		next($fields);
+	}
+
+	public function update($fields, $values, $id) {
+		
+		$model = $this->model;
+
+		$table = $model::$table;
+		
+		$statement = 'update '. $table . ' set ';
+		
+		$field = current( $fields );
+		
+		next( $fields );
+		
+		$statement .=  $field . ' = ? ';
+		
+		while( $field =  current( $fields ) ) {
+		
+			$statement .= ', ' . $field . ' = ? ';
+		
+			next( $fields );
+		}
+		
+		$statement .= 'where id = ?';
+		
+		array_push($values, $id);
+		
+		DB::update($statement, $values);
+	}
+
+	public function insert($fields, $values) {
+	
+		$model = $this->model;
+
+		$table = $model::$table;
+
+		$statement = 'insert into ' . $table . ' ( ';
+		
+		$statement .= current( $fields );
+		
+		$values_itens = '?';
+		
+		next( $fields );
+		
+		while ( $field = current( $fields ) )  {
+		
+			$statement .= ' , ' . $field;
+		
+			$values_itens .= ' , ?';
+		
+			next( $fields );
+		}
+		
+		$statement .= ' ) values ( ' . $values_itens . ' )';
+	 	
+	 	DB::insert($statement, $values);
+	
 	}
 }

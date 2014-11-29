@@ -13,7 +13,10 @@
 
 Route::get('/', function()
 {
-	return User::find(1)->username;
-	//return View::make('hello');
-	//return User::findByFields(['id' => '=', 'username' => 'like'], [1, '%jo%']);
+	$cliente = new Cliente();
+	$cliente->username = 'jonshon';
+	$cliente->email = 'otwedsfsdfsdfsd@email.com';
+	return $cliente->save();
 });
+
+Route::get('login', function() { return View::make('login'); });
