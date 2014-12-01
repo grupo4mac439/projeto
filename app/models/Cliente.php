@@ -6,9 +6,9 @@ class Cliente {
 
 	private static $dao;
 
-	static $tabela = 'users';
+	static $tabela = 'Cliente';
 
-	protected $campos = [ 'username', 'email' ];
+	protected $campos = [ 'cpf', 'email', 'nome', 'endereco', 'senha', 'data_cadastro' ];
 
 	public static function init() {
 		Cliente::$dao = new SuperDAO('Cliente');
@@ -73,8 +73,11 @@ class Cliente {
 		return $valores;
 	}
 
-	public function conta() {
-		return Cliente::$dao->pertenceA('Contas', 'conta_id', $this->id);
+	public function compra() {
+		return Cliente::$dao->temMuitos('Compra', 'id_cliente', $this->id);
 	}
 
+	public function reserva() {
+		return Cliente::$dao->temMuitos('Reserva', 'id_cliente', $this->id);
+	}
 }
