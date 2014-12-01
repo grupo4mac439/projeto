@@ -23,8 +23,9 @@ html, body {
 }
 
 #container {
+	margin: auto;
 	margin-top: 5%;
-	width: 100%;
+	width: 90%;
 }
 
 h1 {

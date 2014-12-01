@@ -13,6 +13,7 @@
 
 Route::get('/', function()
 {
+	return Redirect::to('home');
 	$retorno = Contas::find(1)->clientes();
 	return dd($retorno);
 	//return var_dump( Cliente::findByFields( array('id' => '>'), array('1') ) );
