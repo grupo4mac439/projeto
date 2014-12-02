@@ -2,7 +2,7 @@
 
 @section('head')
 	<title>HELUMA - Home</title>
-	<link rel="stylesheet" href="/css/home.css">
+	<link rel="stylesheet" href="/css/home2.css">
 	<link rel="stylesheet" href="/js/jquery.bxslider/jquery.bxslider.css">
 	<script src="/js/jquery-1.11.1.min.js"></script>
 	<script src="/js/jquery.bxslider/jquery.bxslider.min.js"></script>
@@ -52,9 +52,11 @@
 			<h2>Filmes</h2>
 			<ul class="bxslider">
 				<li>
-					<div class="evento-container">
+					<!-- <div class="evento-container"> -->
 						<div id="filme" class="evento">
-							<img src="/imagens/planetadosmacacos2.jpg" class="evento-img">
+							<div class="evento-img-container">
+								<img src="/imagens/planetadosmacacos2.jpg" class="evento-img">
+							</div>
 							<div class="info">
 								<div class="info-p">
 									<label for="nome">Título:</label>
@@ -75,12 +77,14 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					<!-- </div> -->
 				</li>
 				<li>
-					<div class="evento-container">
+					<!-- <div class="evento-container"> -->
 						<div id="peca" class="evento">
-							<img src="/imagens/inespereira.jpg" class="evento-img">
+							<div class="evento-img-container">
+								<img src="/imagens/inespereira.jpg" class="evento-img">
+							</div>
 							<div class="info">
 								<div class="info-p">
 									<label for="nome">Título:</label>
@@ -101,12 +105,14 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					<!-- </div> -->
 				</li>
 				<li>
-					<div class="evento-container">
+					<!-- <div class="evento-container"> -->
 						<div id="show" class="evento">
-							<img src="/imagens/edguy.jpg" class="evento-img">
+							<div class="evento-img-container">
+								<img src="/imagens/edguy.jpg" class="evento-img">
+							</div>
 							<div class="info">
 								<div class="info-p">
 									<label for="nome">Título:</label>
@@ -127,10 +133,11 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					<!-- </div> -->
 				</li>
 			</ul>
-			<h2>Shows</h2>
+			
+<!-- 			<h2>Shows</h2>
 			<ul class="bxslider">
 				<li>
 					<div class="evento-container">
@@ -291,7 +298,7 @@
 						</div>
 					</div>
 				</li>
-			</ul>
+			</ul> -->
 		</div>
 	</div>
 
