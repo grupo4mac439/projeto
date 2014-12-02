@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -14,3 +15,11 @@
 Route::get('/', function() { return View::make('home'); });
 
 Route::get('login', function() { return View::make('login'); });
+
+Route::post('login', 'SessaoController@entrar');
+
+Route::get('sair', 'SessaoController@sair');
+
+Route::get('cadastro', function() { return View::make('cadastro'); });
+
+Route::post('cadastro', 'ClienteController@cadastro');

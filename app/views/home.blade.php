@@ -22,7 +22,9 @@
 	<div id="content">
 		<div id="header">
 			<div id="heluma" class="header">
-				<h1>HELUMA</h1>
+				<h1>
+					HELUMA 
+				</h1>
 			</div>
 			<div id="header-search" class="header">
 				{{ Form::open(['url' => 'login']) }}
@@ -36,16 +38,21 @@
 			</div>
 			<div id="text" class="header">
 				<ul>
-					<li><a href="login">Login</a></li>
-					<li><a href="#">Cadastro</a></li>
+					@if ( Autenticador::logado() )
+						<li> {{ Autenticador::cliente()->nome }} </li>
+						<li><a href="sair">Sair</a></li>
+					@else
+						<li><a href="login">Login</a></li>
+						<li><a href="cadastro">Cadastro</a></li>
+					@endif
 				</ul>		
 			</div>
 		</div>
 		<div id="container">
+			<h2>Filmes</h2>
 			<ul class="bxslider">
 				<li>
 					<div class="evento-container">
-						<h2>Filmes</h2>
 						<div id="filme" class="evento">
 							<img src="/imagens/planetadosmacacos2.jpg" class="evento-img">
 							<div class="info">
@@ -72,7 +79,6 @@
 				</li>
 				<li>
 					<div class="evento-container">
-						<h2>Peças</h2>
 						<div id="peca" class="evento">
 							<img src="/imagens/inespereira.jpg" class="evento-img">
 							<div class="info">
@@ -99,7 +105,6 @@
 				</li>
 				<li>
 					<div class="evento-container">
-						<h2>Shows</h2>
 						<div id="show" class="evento">
 							<img src="/imagens/edguy.jpg" class="evento-img">
 							<div class="info">
@@ -125,10 +130,10 @@
 					</div>
 				</li>
 			</ul>
+			<h2>Shows</h2>
 			<ul class="bxslider">
 				<li>
 					<div class="evento-container">
-						<h2>Filmes</h2>
 						<div id="filme" class="evento">
 							<img src="/imagens/planetadosmacacos2.jpg" class="evento-img">
 							<div class="info">
@@ -155,7 +160,6 @@
 				</li>
 				<li>
 					<div class="evento-container">
-						<h2>Peças</h2>
 						<div id="peca" class="evento">
 							<img src="/imagens/inespereira.jpg" class="evento-img">
 							<div class="info">
@@ -182,7 +186,6 @@
 				</li>
 				<li>
 					<div class="evento-container">
-						<h2>Shows</h2>
 						<div id="show" class="evento">
 							<img src="/imagens/edguy.jpg" class="evento-img">
 							<div class="info">
@@ -208,10 +211,10 @@
 					</div>
 				</li>
 			</ul>
+			<h2>Peças</h2>
 			<ul class="bxslider">
 				<li>
 					<div class="evento-container">
-						<h2>Filmes</h2>
 						<div id="filme" class="evento">
 							<img src="/imagens/planetadosmacacos2.jpg" class="evento-img">
 							<div class="info">
@@ -238,7 +241,6 @@
 				</li>
 				<li>
 					<div class="evento-container">
-						<h2>Peças</h2>
 						<div id="peca" class="evento">
 							<img src="/imagens/inespereira.jpg" class="evento-img">
 							<div class="info">
@@ -265,7 +267,6 @@
 				</li>
 				<li>
 					<div class="evento-container">
-						<h2>Shows</h2>
 						<div id="show" class="evento">
 							<img src="/imagens/edguy.jpg" class="evento-img">
 							<div class="info">

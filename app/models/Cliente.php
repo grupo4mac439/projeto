@@ -8,7 +8,7 @@ class Cliente {
 
 	static $tabela = 'Cliente';
 
-	protected $campos = [ 'cpf', 'email', 'nome', 'endereco', 'senha', 'data_cadastro' ];
+	protected $campos = [ 'nome', 'email', 'cpf', 'endereco', 'senha', 'data_cadastro' ];
 
 	public static function init() {
 		Cliente::$dao = new SuperDAO('Cliente');

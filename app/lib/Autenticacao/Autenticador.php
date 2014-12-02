@@ -2,35 +2,48 @@
 
 use lib\DAO\SuperDAO;
 use Cliente;
+use Hash;
+use Session;
 
 class Autenticador {
 
-	private static $cliente;
+	protected $cliente;
 
-	private static $cliente_dao;
-
-	public static function init() {
-		Autenticador::$cliente_dao = new SuperDAO('Cliente');
+	public function cliente() {
+		if ( !isset( $this->cliente ) ) {
+			$cliente_id = Session::get('cliente');
+			$this->cliente = Cliente::encontrar($cliente_id);
+		}
+		return $this->cliente;
 	}
 
-	public static function cliente() {
-		return Autenticador::$cliente;
+	public function entrar( $cliente ) {
+		$this->cliente = $cliente;
+		Session::put('cliente', $cliente->id);
 	}
 
-	public static function entrar( $cliente ) {
-		Autenticador::$cliente = $cliente;
+	public function logado() {
+		return Session::has('cliente');
 	}
 
-	public static function autenticar($email, $senha) {
+	public function deslogar() {
+		Session::forget('cliente');
+	}
+
+	public function autenticar($email, $senha) {
 		
-		$credenciais = array('email', 'senha');
-		$valores = array($email, $senha);
-		$cliente = Autenticador::$cliente_dao->findByFields($credenciais, $valores);
+	 	$resultado = Cliente::encontrarPorCampos(['email'], [$email]);
 		
-		if (isset($cliente)) {
-			Autenticador::entrar($cliente);
+	 	if ( !isset($resultado) )
+	 		return false;
+
+	 	$cliente = array_shift($resultado);
+
+		if ( Hash::check($senha, $cliente->senha) ) {
+			$this->entrar($cliente);
 			return true;
-		} 
+		}
+
 		return false;
 	}
 }

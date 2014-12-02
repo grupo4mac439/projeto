@@ -80,5 +80,10 @@ App::down(function()
 
 require app_path().'/filters.php';
 
-Autenticador::init();
 Cliente::init();
+Evento::init();
+Ingresso::init();
+InstanciaEvento::init();
+Local::init();
+Lugares::init();
+Setores::init();

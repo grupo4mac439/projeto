@@ -1,0 +1,13 @@
+#cadastro {
+	width: 450px;
+	padding: 25px;
+	border-radius: 10px;
+	background-color: #ddd;
+	box-shadow: 0 0 3px 3px #999;	
+	margin: 0 auto;
+}
+
+h2 {
+	margin: 0;
+	margin-bottom: 10px;
+}

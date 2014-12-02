@@ -151,12 +151,12 @@ class SuperDAO {
 			next( $campos );
 		}
 		
-		$query .= ' ) valores ( ' . $valores_itens . ' ) returning id';
+		$query .= ' ) values ( ' . $valores_itens . ' ) returning id';
 	 	
-	 	try {
-	 		$result = DB::select($query, $valores);
-	 	}
-	 	catch (\Illuminate\Database\QueryException $e) {
+		try {
+			$result = DB::select($query, $valores);
+		}
+		catch (\Illuminate\Database\QueryException $e) {
 			return -1; //operação falhou
 		}
 		

@@ -46,6 +46,9 @@ class CastModels {
 			$new_model = CastModels::castModel($model, $result);
 			array_push($models, $new_model);
 		}
+		
+		if ( empty($models) ) return NULL;
+
 		return $models;
 	}
 }
