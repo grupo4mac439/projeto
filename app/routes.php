@@ -11,18 +11,6 @@
 |
 */
 
-Route::get('/', function()
-{
-	return Redirect::to('home');
-	$retorno = Contas::find(1)->clientes();
-	return dd($retorno);
-	//return var_dump( Cliente::findByFields( array('id' => '>'), array('1') ) );
-	// $cliente = new Cliente();
-	// $cliente->username = 'jonshon';
-	// $cliente->email = 'otwedsfsdfsdfsd@email.com';
-	// return $cliente->save();
-});
-
-Route::get('home', function() { return View::make('home'); });
+Route::get('/', function() { return View::make('home'); });
 
 Route::get('login', function() { return View::make('login'); });

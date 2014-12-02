@@ -27,28 +27,18 @@ class Local {
 	}
 
 	private function atualizar( $id, $valores) {
-		Local::$dao->atualizar( $this->campos, $valores, $id );
-		
-		return 0;
+		return Local::$dao->atualizar( $this->campos, $valores, $id );
 	}
 
 	private function inserir($valores) {
 		
-		$posicao = array_search('nome', $this->campos);
-		$nome = $valores[ $posicao ];
-		$resultados = Local::encontrarPorCampos( array('nome'), array($nome) );
-		
-		if (!empty($resultados))
+		$id = Local::$dao->inserir( $this->campos, $valores);
+
+		if ($id == -1)
 			return -1;
 
-		Local::$dao->inserir( $this->campos, $valores);
-		
-		$resultados = Local::findByFields( array('nome'), array($nome) );
-		
-		$resultado = array_shift($resultados);
+		$this->id = $id;
 
-		$this->id = $resultado->id;
-		
 		return 0;
 	}
 

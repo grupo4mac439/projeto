@@ -27,28 +27,18 @@ class Ingresso {
 	}
 
 	private function atualizar( $id, $valores) {
-		Ingresso::$dao->atualizar( $this->campos, $valores, $id );
-		
-		return 0;
+		return Ingresso::$dao->atualizar( $this->campos, $valores, $id );
 	}
 
 	private function inserir($valores) {
 		
-		$posicao = array_search('id_lugar', $this->campos);
-		$id_lugar = $valores[ $posicao ];
-		$resultados = Ingresso::encontrarPorCampos( array('id_lugar'), array($email) );
+		$id = Ingresso::$dao->inserir( $this->campos, $valores);
 		
-		if (!empty($resultados))
+		if ($id == -1)
 			return -1;
 
-		Ingresso::$dao->inserir( $this->campos, $valores);
-		
-		$resultados = Ingresso::findByFields( array('email'), array($id_lugar) );
-		
-		$resultado = array_shift($resultados);
+		$this->id = $id;
 
-		$this->id = $resultado->id;
-		
 		return 0;
 	}
 

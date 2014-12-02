@@ -27,21 +27,18 @@ class Lugares {
 	}
 
 	private function atualizar( $id, $valores) {
-		Lugares::$dao->atualizar( $this->campos, $valores, $id );
-		
-		return 0;
+		return Lugares::$dao->atualizar( $this->campos, $valores, $id );
 	}
 
 	private function inserir($valores) {
 
-		Lugares::$dao->inserir( $this->campos, $valores);
+		$id = Lugares::$dao->inserir( $this->campos, $valores);
 		
-		$resultados = Lugares::findByFields( array('nome'), array($nome) );
-		
-		$resultado = array_shift($resultados);
+		if ($id == -1)
+			return -1;
 
-		$this->id = $resultado->id;
-		
+		$this->id = $id;
+
 		return 0;
 	}
 

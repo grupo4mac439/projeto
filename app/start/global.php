@@ -82,4 +82,3 @@ require app_path().'/filters.php';
 
 Autenticador::init();
 Cliente::init();
-Contas::init();

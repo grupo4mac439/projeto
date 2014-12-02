@@ -27,28 +27,18 @@ class Evento {
 	}
 
 	private function atualizar( $id, $valores) {
-		Evento::$dao->atualizar( $this->campos, $valores, $id );
-		
-		return 0;
+		return Evento::$dao->atualizar( $this->campos, $valores, $id );
 	}
 
 	private function inserir($valores) {
 		
-		$posicao = array_search('nome', $this->campos);
-		$nome = $valores[ $posicao ];
-		$resultados = Evento::encontrarPorCampos( array('nome'), array($nome) );
+		$id = Evento::$dao->inserir( $this->campos, $valores);
 		
-		if (!empty($resultados))
+		if ($id == -1)
 			return -1;
+		
+		$this->id = $id;
 
-		Evento::$dao->inserir( $this->campos, $valores);
-		
-		$resultados = Evento::findByFields( array('nome'), array($nome) );
-		
-		$resultado = array_shift($resultados);
-
-		$this->id = $resultado->id;
-		
 		return 0;
 	}
 

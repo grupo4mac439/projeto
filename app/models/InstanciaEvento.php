@@ -27,31 +27,19 @@ class InstanciaEvento {
 	}
 
 	private function atualizar( $id, $valores) {
-		InstanciaEvento::$dao->atualizar( $this->campos, $valores, $id );
-		
-		return 0;
+		return InstanciaEvento::$dao->atualizar( $this->campos, $valores, $id );
 	}
 
 	private function inserir($valores) {
+	
+		$id = InstanciaEvento::$dao->inserir( $this->campos, $valores);
 		
-		$posicao = array_search('id_evento', $this->campos);
-		$evento = $valores[ $posicao ];
-		$posicao = array_search('id_local', $this->campos);
-		$local = $valores[ $posicao ];
-		$resultados = InstanciaEvento::encontrarPorCampos( array('id_evento', 'id_local'), array($evento, $local) );
-		
-		if (!empty($resultados))
+		if ($id == -1)
 			return -1;
 
-		InstanciaEvento::$dao->inserir( $this->campos, $valores);
-		
-		$resultados = InstanciaEvento::findByFields( array('id_evento','id_local'), array($nome) );
-		
-		$resultado = array_shift($resultados);
+		$this->id = $id;
 
-		$this->id = $resultado->id;
-		
-		return 0;
+		return 0;	
 	}
 
 	public function save() {

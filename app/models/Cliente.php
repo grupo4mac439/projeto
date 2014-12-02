@@ -27,28 +27,27 @@ class Cliente {
 	}
 
 	private function atualizar( $id, $valores) {
-		Cliente::$dao->atualizar( $this->campos, $valores, $id );
-		
-		return 0;
+		return Cliente::$dao->atualizar( $this->campos, $valores, $id );
 	}
 
 	private function inserir($valores) {
 		
 		$posicao = array_search('email', $this->campos);
+		
 		$email = $valores[ $posicao ];
+		
 		$resultados = Cliente::encontrarPorCampos( array('email'), array($email) );
 		
-		if (!empty($resultados))
+		if ($resultados == -1 || !empty($resultados))
 			return -1;
 
-		Cliente::$dao->inserir( $this->campos, $valores);
+		$id = Cliente::$dao->inserir( $this->campos, $valores);
 		
-		$resultados = Cliente::findByFields( array('email'), array($email) );
+		if ($id == -1)
+			return -1;
 		
-		$resultado = array_shift($resultados);
+		$this->id = $id;
 
-		$this->id = $resultado->id;
-		
 		return 0;
 	}
 

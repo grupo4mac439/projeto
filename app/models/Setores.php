@@ -27,28 +27,18 @@ class Setores {
 	}
 
 	private function atualizar( $id, $valores) {
-		Setores::$dao->atualizar( $this->campos, $valores, $id );
-		
-		return 0;
+		return Setores::$dao->atualizar( $this->campos, $valores, $id );
 	}
 
 	private function inserir($valores) {
 		
-		$posicao = array_search('nome', $this->campos);
-		$nome = $valores[ $posicao ];
-		$resultados = Setores::encontrarPorCampos( array('nome'), array($nome) );
+		$id = Setores::$dao->inserir( $this->campos, $valores);
 		
-		if (!empty($resultados))
+		if ($id == -1)
 			return -1;
 
-		Setores::$dao->inserir( $this->campos, $valores);
-		
-		$resultados = Setores::findByFields( array('nome'), array($nome) );
-		
-		$resultado = array_shift($resultados);
+		$this->id = $id;
 
-		$this->id = $resultado->id;
-		
 		return 0;
 	}
 

@@ -17,9 +17,14 @@ class SuperDAO {
 		$modelo = $this->modelo;
 
 		$tabela = $modelo::$tabela;
-		
-		$resultados =  DB::select('select * from ' . $tabela . ' where id = ?', array($id));
-		
+
+		try {
+			$resultados =  DB::select('select * from ' . $tabela . ' where id = ?', array($id));
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			return -1; //operação falhou
+		}
+
 		$resultado = array_shift($resultados);
 		
 		if ($resultado == NULL)
@@ -34,7 +39,12 @@ class SuperDAO {
 
 		$tabela = $modelo::$tabela;
 
-		$resultados = DB::select('select * from ' . $tabela);
+		try {
+			$resultados = DB::select('select * from ' . $tabela);
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			return -1; //operação falhou
+		}
 		
 		return CastModels::castModels($modelo, $resultados);
 	}
@@ -57,8 +67,13 @@ class SuperDAO {
 
 			$query .= ' and ' . $campo . ' ' . $operador .' ?';
 		}
-		
-		$resultados = DB::select ( $query, $valores );	
+
+		try {
+			$resultados = DB::select ( $query, $valores );	
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			return -1; //operação falhou
+		}
 		
 		return CastModels::castModels($modelo, $resultados);
 	}
@@ -103,7 +118,14 @@ class SuperDAO {
 		
 		array_push($valores, $id);
 		
-		DB::update($query, $valores);
+		try {
+			DB::update($query, $valores);
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			return -1; //operação falhou
+		}
+
+		return 0;
 	}
 
 	public function inserir($campos, $valores) {
@@ -129,10 +151,16 @@ class SuperDAO {
 			next( $campos );
 		}
 		
-		$query .= ' ) valores ( ' . $valores_itens . ' )';
+		$query .= ' ) valores ( ' . $valores_itens . ' ) returning id';
 	 	
-	 	DB::insert($query, $valores);
-	
+	 	try {
+	 		$result = DB::select($query, $valores);
+	 	}
+	 	catch (\Illuminate\Database\QueryException $e) {
+			return -1; //operação falhou
+		}
+		
+		return array_shift($result)->id;
 	}
 
 	public function pertenceA( $modeloDono, $fk, $id ) {
@@ -146,7 +174,12 @@ class SuperDAO {
 		$query = 'select * from ' . $tabelaDono . ' where id 
 						in (select ' . $fk . ' from ' . $tabela . ' where id = ?)';
 		
-		$resultados = DB::select($query, array($id));
+		try {
+			$resultados = DB::select($query, array($id));
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			return -1; //operação falhou
+		}
 		
 		$resultado = array_shift($resultados);
 		
@@ -162,7 +195,12 @@ class SuperDAO {
 		
 		$query = 'select * from ' . $tabelaObjeto . ' where ' . $fk . ' = ?';
 
-		$resultados = DB::select($query, array($id));
+		try {
+			$resultados = DB::select($query, array($id));
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			return -1; //operação falhou
+		}
 	
 		return CastModels::castModels($modeloObjeto, $resultados);
 	}
@@ -173,7 +211,12 @@ class SuperDAO {
 		
 		$query = 'select * from ' . $tabelaObjeto . ' where ' . $fk . ' = ?';
 
-		$resultados = DB::select($query, array($id));
+		try {
+			$resultados = DB::select($query, array($id));
+		}
+		catch (\Illuminate\Database\QueryException $e) {
+			return -1; //operação falhou
+		}
 	
 		$resultado = array_shift($resultados);
 		

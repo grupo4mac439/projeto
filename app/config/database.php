@@ -66,13 +66,13 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'data.ime.usp.br',
-			'database' => 'bd_7990954',
+			'database' => 'bd_7990954', //'bd_mac439_2014_grupo4',
 			'port'     => '23001',
 			'username' => 'u7990954',
 			'password' => 'rere5656',
 			'charset'  => 'utf8',
 			'prefix'   => '',
-			'schema'   => 'public',
+			'schema'   => 'public', //'heluma',
 		),
 
 		'sqlsrv' => array(
