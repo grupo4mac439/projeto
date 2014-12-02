@@ -51,7 +51,7 @@ and (max-device-width : 480px)
 	}
 
 	.info {
-		width: 100%;
+		width: 80%;
 	}
 }
 
