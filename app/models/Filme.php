@@ -2,40 +2,40 @@
 
 use lib\DAO\SuperDAO;
 
-class Ingresso {
+class Filme {
 
 	private static $dao;
 
-	static $tabela = 'Ingresso';
+	static $tabela = 'Filme';
 
-	static $chave_primaria = 'id';
+	static $chave_primaria = 'id_evento';
 
-	protected $campos = [ 'id_lugar' ];
+	protected $campos = [ 'id_evento', 'sinopse', 'pais_origem' ];
 
 	public static function init() {
-		Ingresso::$dao = new SuperDAO('Ingresso');
+		Filme::$dao = new SuperDAO('Filme');
 	}
 
 	public static function todos () {
-		return Ingresso::$dao->todos();
+		return Filme::$dao->todos();
 	}
 
 	public static function encontrar ( $id ) {
-		return Ingresso::$dao->encontrarPorId ( $id );
+		return Filme::$dao->encontrarPorId ( $id );
 	}
 
 	public static function encontrarPorCampos( $campos, $valores) {
-		return Ingresso::$dao->encontrarPorCampos( $campos, $valores);
+		return Filme::$dao->encontrarPorCampos( $campos, $valores);
 	}
 
 	private function atualizar( $id, $valores) {
-		return Ingresso::$dao->atualizar( $this->campos, $valores, $id );
+		return Filme::$dao->atualizar( $this->campos, $valores, $id );
 	}
 
 	private function inserir($valores) {
 		
-		$id = Ingresso::$dao->inserir( $this->campos, $valores);
-		
+		$id = Filme::$dao->inserir( $this->campos, $valores);
+
 		if ($id == -1)
 			return -1;
 
@@ -65,8 +65,8 @@ class Ingresso {
 		return $valores;
 	}
 
-	public function lugar() {
-		return Ingresso::$dao->pertenceA('Lugares', 'id_lugar', $this->id);
+	public function evento() {
+		return Filme::$dao->pertenceA('Evento', 'id_local', $this->id_evento);
 	}
 
 }

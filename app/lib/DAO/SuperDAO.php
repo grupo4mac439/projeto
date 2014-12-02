@@ -18,8 +18,10 @@ class SuperDAO {
 
 		$tabela = $modelo::$tabela;
 
+		$chave_primaria = $modelo::$chave_primaria;
+
 		try {
-			$resultados =  DB::select('select * from ' . $tabela . ' where id = ?', array($id));
+			$resultados =  DB::select('select * from ' . $tabela . ' where ' . $chave_primaria . ' = ?', array($id));
 		}
 		catch (\Illuminate\Database\QueryException $e) {
 			return -1; //operação falhou
@@ -33,14 +35,19 @@ class SuperDAO {
 		return CastModels::castModel($modelo, $resultado);
 	}
 
-	public function todos() {
+	public function todos( $aleatorio = null ) {
 		
 		$modelo = $this->modelo;
 
 		$tabela = $modelo::$tabela;
 
+		$query = 'select * from ' . $tabela;
+
+		if ( isset($aleatorio) )
+			$query .= ' order by random()';
+
 		try {
-			$resultados = DB::select('select * from ' . $tabela);
+			$resultados = DB::select($query);
 		}
 		catch (\Illuminate\Database\QueryException $e) {
 			return -1; //operação falhou
@@ -49,7 +56,7 @@ class SuperDAO {
 		return CastModels::castModels($modelo, $resultados);
 	}
 
-	public function encontrarPorCampos($campos, $valores) {
+	public function encontrarPorCampos($campos, $valores, $aleatorio = null, $limite = null) {
 		
 		$modelo = $this->modelo;
 
@@ -67,6 +74,12 @@ class SuperDAO {
 
 			$query .= ' and ' . $campo . ' ' . $operador .' ?';
 		}
+
+		if ( isset($aleatorio) )
+			$query .= ' order by random()';
+
+		if ( isset($limite) )
+			$query .= ' limit ' . $limite;
 
 		try {
 			$resultados = DB::select ( $query, $valores );	
@@ -98,6 +111,8 @@ class SuperDAO {
 		$modelo = $this->modelo;
 
 		$tabela = $modelo::$tabela;
+
+		$chave_primaria = $modelo::$chave_primaria;
 		
 		$query = 'update '. $tabela . ' set ';
 		
@@ -114,7 +129,7 @@ class SuperDAO {
 			next( $campos );
 		}
 		
-		$query .= 'where id = ?';
+		$query .= 'where ' . $chave_primaria . ' = ?';
 		
 		array_push($valores, $id);
 		
@@ -134,6 +149,8 @@ class SuperDAO {
 
 		$tabela = $modelo::$tabela;
 
+		$chave_primaria = $modelo::$chave_primaria;
+
 		$query = 'insert into ' . $tabela . ' ( ';
 		
 		$query .= current( $campos );
@@ -151,7 +168,7 @@ class SuperDAO {
 			next( $campos );
 		}
 		
-		$query .= ' ) values ( ' . $valores_itens . ' ) returning id';
+		$query .= ' ) values ( ' . $valores_itens . ' ) returning ' . $chave_primaria;
 	 	
 		try {
 			$result = DB::select($query, $valores);
@@ -169,10 +186,14 @@ class SuperDAO {
 
 		$tabela = $modelo::$tabela;		
 
+		$chave_primaria = $modelo::$chave_primaria;
+
 		$tabelaDono = $modeloDono::$tabela;
+
+		$chave_primariaDono = $modeloDono::$chave_primaria;
 		
-		$query = 'select * from ' . $tabelaDono . ' where id 
-						in (select ' . $fk . ' from ' . $tabela . ' where id = ?)';
+		$query = 'select * from ' . $tabelaDono . ' where ' . $chave_primariaDono . 
+					' in (select ' . $fk . ' from ' . $tabela . ' where ' . $chave_primaria . ' = ?)';
 		
 		try {
 			$resultados = DB::select($query, array($id));

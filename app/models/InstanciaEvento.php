@@ -8,6 +8,8 @@ class InstanciaEvento {
 
 	static $tabela = 'InstanciaEvento';
 
+	static $chave_primaria = 'id';
+
 	protected $campos = [ 'data', 'hora', 'id_evento', 'id_local' ];
 
 	public static function init() {
@@ -15,7 +17,7 @@ class InstanciaEvento {
 	}
 
 	public static function todos () {
-		return InstanciaEvento::$dao->todos( InstanciaEvento::$tabela );
+		return InstanciaEvento::$dao->todos();
 	}
 
 	public static function encontrar ( $id ) {

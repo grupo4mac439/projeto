@@ -8,22 +8,24 @@ class Evento {
 
 	static $tabela = 'Evento';
 
+	static $chave_primaria = 'id';
+
 	protected $campos = [ 'nome', 'genero', 'classificacao', 'tipo', 'foto' ];
 
 	public static function init() {
 		Evento::$dao = new SuperDAO('Evento');
 	}
 
-	public static function todos () {
-		return Evento::$dao->todos( Evento::$tabela );
+	public static function todos ( $aleatorio = null ) {
+		return Evento::$dao->todos( $aleatorio );
 	}
 
 	public static function encontrar ( $id ) {
 		return Evento::$dao->encontrarPorId ( $id );
 	}
 
-	public static function encontrarPorCampos( $campos, $valores) {
-		return Evento::$dao->encontrarPorCampos( $campos, $valores);
+	public static function encontrarPorCampos( $campos, $valores, $aleatorio = null, $limite = null ) {
+		return Evento::$dao->encontrarPorCampos( $campos, $valores, $aleatorio, $limite);
 	}
 
 	private function atualizar( $id, $valores) {
@@ -65,6 +67,18 @@ class Evento {
 
 	public function instanciaEvento() {
 		return Evento::$dao->temMuitos('Instancia_Evento', 'id_evento', $this->id);
+	}
+
+	public function filme() {
+		return Evento::$dao->temUm('Filme', 'id_evento', $this->id);
+	}
+
+	public function show() {
+		return Evento::$dao->temUm('Show', 'id_evento', $this->id);
+	}
+
+	public function peca() {
+		return Evento::$dao->temUm('Peca', 'id_evento', $this->id);
 	}
 
 }

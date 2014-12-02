@@ -8,22 +8,24 @@ class Cliente {
 
 	static $tabela = 'Cliente';
 
+	static $chave_primaria = 'id';
+
 	protected $campos = [ 'nome', 'email', 'cpf', 'endereco', 'senha', 'data_cadastro' ];
 
 	public static function init() {
 		Cliente::$dao = new SuperDAO('Cliente');
 	}
 
-	public static function todos () {
-		return Cliente::$dao->todos( Cliente::$tabela );
+	public static function todos ( $aleatorio = null ) {
+		return Cliente::$dao->todos( $aleatorio );
 	}
 
 	public static function encontrar ( $id ) {
 		return Cliente::$dao->encontrarPorId ( $id );
 	}
 
-	public static function encontrarPorCampos( $campos, $valores) {
-		return Cliente::$dao->encontrarPorCampos( $campos, $valores);
+	public static function encontrarPorCampos( $campos, $valores, $aleatorio = null, $limite = null ) {
+		return Cliente::$dao->encontrarPorCampos( $campos, $valores, $aleatorio, $limite );
 	}
 
 	private function atualizar( $id, $valores) {

@@ -7,6 +7,7 @@
 
 .evento-img-container {
 	margin: 0 auto;
+	margin-bottom: 20px;
 }
 
 .evento-img {
@@ -29,6 +30,13 @@
 
 .info-p label, .info-p p {
 	display: inline-block;
+}
+
+.info-sinopse {
+	width: 100%;
+	margin: 0 auto;
+	clear: both;
+	text-align: justify;
 }
 
 h2 {
@@ -109,11 +117,15 @@ and (min-width : 1224px) {
 		height: 230px;
 		width: 400px;
 		display: inline-block;
+		float: left;
 	}
 
 	.info {
+		height: 230px;
 		width: 50%;
+		padding-top: 50px;
 		display: inline-block;
+		float: right;
 	}
 
 }

@@ -8,6 +8,8 @@ class Setores {
 
 	static $tabela = 'Setores';
 
+	static $chave_primaria = 'id';
+
 	protected $campos = [ 'nome', 'cota_meia', 'preco', 'id_inst_evento' ];
 
 	public static function init() {
@@ -15,7 +17,7 @@ class Setores {
 	}
 
 	public static function todos () {
-		return Setores::$dao->todos( Setores::$tabela );
+		return Setores::$dao->todos();
 	}
 
 	public static function encontrar ( $id ) {

@@ -12,7 +12,7 @@
 |
 */
 
-Route::get('/', function() { return View::make('home'); });
+Route::get('/', 'EventoController@home');
 
 Route::get('login', function() { return View::make('login'); });
 

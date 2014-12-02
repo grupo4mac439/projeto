@@ -8,6 +8,8 @@ class Lugares {
 
 	static $tabela = 'Lugares';
 
+	static $chave_primaria = 'id';
+
 	protected $campos = [ 'id_setor', 'status' ];
 
 	public static function init() {
@@ -15,7 +17,7 @@ class Lugares {
 	}
 
 	public static function todos () {
-		return Lugares::$dao->todos( Lugares::$tabela );
+		return Lugares::$dao->todos();
 	}
 
 	public static function encontrar ( $id ) {

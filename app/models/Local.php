@@ -8,6 +8,8 @@ class Local {
 
 	static $tabela = 'Local';
 
+	static $chave_primaria = 'id';
+
 	protected $campos = [ 'nome', 'endereco', 'capacidade', 'tipo' ];
 
 	public static function init() {
@@ -15,7 +17,7 @@ class Local {
 	}
 
 	public static function todos () {
-		return Local::$dao->todos( Local::$tabela );
+		return Local::$dao->todos();
 	}
 
 	public static function encontrar ( $id ) {
