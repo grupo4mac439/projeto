@@ -69,9 +69,11 @@ and (orientation : landscape) {
 		height: 280px;
 		width: 50%;
 		display: inline-block;
+		margin: 0;
 	}
 
 	.info {
+		margin: 0;
 		width: 50%;
 		display: inline-block;
 	}
