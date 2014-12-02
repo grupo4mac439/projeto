@@ -46,8 +46,8 @@ and (max-device-width : 480px)
 	}
 
 	.evento-img-container {
-		height: 230px;
-		width: 100%;
+		height: 280px;
+		width: 80%;
 	}
 
 	.info {
