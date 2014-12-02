@@ -74,8 +74,7 @@ and (orientation : landscape) {
 
 	.info {
 		margin: 0;
-		max-width: 380px;
-		width: 50%;
+		width: 300px;
 		float: right;
 	}
 }
