@@ -67,15 +67,16 @@ and (orientation : landscape) {
 
 	.evento-img-container {
 		height: 280px;
-		width: 50%;
-		display: inline-block;
+		width: 400px;
 		margin: 0;
+		float: left;
 	}
 
 	.info {
 		margin: 0;
+		max-width: 380px;
 		width: 50%;
-		display: inline-block;
+		float: right;
 	}
 }
 
