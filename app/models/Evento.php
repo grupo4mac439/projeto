@@ -24,8 +24,8 @@ class Evento {
 		return Evento::$dao->encontrarPorId ( $id );
 	}
 
-	public static function encontrarPorCampos( $campos, $valores, $aleatorio = null, $limite = null ) {
-		return Evento::$dao->encontrarPorCampos( $campos, $valores, $aleatorio, $limite);
+	public static function encontrarPorCampos( $campos, $valores, $aleatorio = null, $limite = null, $eou = 'and') {
+		return Evento::$dao->encontrarPorCampos( $campos, $valores, $aleatorio, $limite, $eou);
 	}
 
 	private function atualizar( $id, $valores) {
@@ -79,6 +79,60 @@ class Evento {
 
 	public function peca() {
 		return Evento::$dao->temUm('Peca', 'id_evento', $this->id);
+	}
+
+	public static function pesquisa( $expressao ) {
+
+		$expressao = strtolower($expressao);
+
+		$termos = explode(' ', $expressao);
+
+		$campos = ['lower(nome)' => 'like', 'lower(genero)' => 'like', 
+			'lower(classificacao)' => 'like', 'tipo' => '='];
+
+		foreach($termos as $termo) 
+		{
+			$termo_parecido = '%' . $termo . '%';
+			
+			$tipo = '%%';
+
+			if ( strpos($termo, 'filme') !== false)
+				$tipo = 'f';
+
+			if ( strpos($termo, 'peca') !== false)
+				$tipo = 'peca';
+
+			if ( strpos($termo, 'show') !== false)
+				$tipo = 's';
+
+			$valores = [$termo_parecido, $termo_parecido, $termo_parecido, $tipo];
+
+			$eventos_encontrados = Evento::encontrarPorCampos($campos, $valores, null, null, 'or');
+
+			if (!isset($total_eventos))
+				$total_eventos = $eventos_encontrados;
+			else
+				$total_eventos = array_merge($total_eventos, $eventos_encontrados);
+		}
+
+		return Evento::retiraReplicados($total_eventos);
+	}
+
+	private static function retiraReplicados( $eventos ) {
+		$existentes = array();
+		$eventos_unicos = array();
+
+		foreach ($eventos as $evento) {
+			if ( in_array($evento->id, $existentes))
+				continue;
+			array_push($existentes, $evento->id);
+			array_push($eventos_unicos, $evento);
+		}
+		return $eventos_unicos;
+	}
+
+	public static function seleciona3Eventos( $tipo ) {
+		return Evento::$dao->seleciona3Eventos( $tipo );
 	}
 
 }

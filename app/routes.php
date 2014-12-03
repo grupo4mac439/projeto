@@ -23,3 +23,5 @@ Route::get('sair', 'SessaoController@sair');
 Route::get('cadastro', function() { return View::make('cadastro'); });
 
 Route::post('cadastro', 'ClienteController@cadastro');
+
+Route::post('pesquisa', 'EventoController@pesquisa');

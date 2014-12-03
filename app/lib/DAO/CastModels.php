@@ -47,8 +47,6 @@ class CastModels {
 			array_push($models, $new_model);
 		}
 		
-		if ( empty($models) ) return NULL;
-
 		return $models;
 	}
 }

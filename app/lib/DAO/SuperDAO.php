@@ -56,7 +56,7 @@ class SuperDAO {
 		return CastModels::castModels($modelo, $resultados);
 	}
 
-	public function encontrarPorCampos($campos, $valores, $aleatorio = null, $limite = null) {
+	public function encontrarPorCampos($campos, $valores, $aleatorio = null, $limite = null, $eou = 'and') {
 		
 		$modelo = $this->modelo;
 
@@ -72,7 +72,7 @@ class SuperDAO {
 
 			$this->pegaCampoOperador ( $campos, $campo, $operador );
 
-			$query .= ' and ' . $campo . ' ' . $operador .' ?';
+			$query .= ' ' . $eou . ' ' . $campo . ' ' . $operador .' ?';
 		}
 
 		if ( isset($aleatorio) )
@@ -245,5 +245,24 @@ class SuperDAO {
 			return NULL;
 
 		return CastModels::castModel($modeloObjeto, $resultado);		
+	}
+
+	public function seleciona3Eventos( $tipo ) {
+
+		$modelo = $this->modelo;
+
+		$query = 'select distinct evento.id, nome, genero, classificacao, tipo, foto
+		          from evento, instancia_evento
+		          where tipo = ? and evento.id = id_evento and data > now()
+		          limit 3';
+
+		try {
+			$resultados = DB::select ( $query, array($tipo) );
+		}
+		catch(\Illuminate\Database\QueryException $e) {
+			return -1;  //operação falhou
+		}
+
+		return CastModels::castModels($modelo, $resultados);
 	}
 }

@@ -27,9 +27,9 @@
 				</h1>
 			</div>
 			<div id="header-search" class="header">
-				{{ Form::open(['url' => 'login']) }}
+				{{ Form::open(['url' => 'pesquisa']) }}
 				<div class="input-group"> 
-					{{ Form::text('search', null, ['class' => 'form-control' , 'placeholder' => 'Pesquise aqui']) }}
+					{{ Form::text('pesquisa', null, ['class' => 'form-control' , 'placeholder' => 'Pesquise aqui']) }}
 					<span id="search_span" class="input-group-btn">
 						{{ Form::submit('Pesquisar', ['class' => 'btn btn-default']) }}
 					</span>
