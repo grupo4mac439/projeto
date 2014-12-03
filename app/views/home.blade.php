@@ -70,11 +70,12 @@
 								<label for="classificacao">Classificação:</label>
 								<p name="classificacao"> {{ $filme->classificacao }} </p>
 							</div>
+							<div class="info-p">
+								<label for="sinopse">Sinopse:</label>
+								<p name="sinopse"> {{ $filme->filme()->sinopse }}</p>
+							</div>
 						</div>
-						<div class="info-sinopse">
-							<label for="sinopse">Sinopse:</label>
-							<p name="sinopse"> {{ $filme->filme()->sinopse }}</p>
-						</div>
+
 					</div>
 				</li>
 			@endforeach
@@ -101,10 +102,10 @@
 								<label for="classificacao">Classificação:</label>
 								<p name="classificacao"> {{ $show->classificacao }} </p>
 							</div>
-						</div>
-						<div class="info-sinopse">
-							<label for="sinopse">Sinopse:</label>
-							<p name="sinopse"> {{ $show->show()->descricao }}</p>
+							<div class="info-p">
+								<label for="sinopse">Sinopse:</label>
+								<p name="sinopse"> {{ $show->show()->descricao }}</p>
+							</div>
 						</div>
 					</div>
 				</li>
@@ -132,10 +133,10 @@
 								<label for="classificacao">Classificação:</label>
 								<p name="classificacao"> {{ $peca->classificacao }} </p>
 							</div>
-						</div>
-						<div class="info-sinopse">
-							<label for="sinopse">Sinopse:</label>
-							<p name="sinopse"> {{ $peca->peca()->sinopse }}</p>
+							<div class="info-p">
+								<label for="sinopse">Sinopse:</label>
+								<p name="sinopse"> {{ $peca->peca()->sinopse }}</p>
+							</div>
 						</div>
 					</div>
 				</li>
