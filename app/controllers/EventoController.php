@@ -17,4 +17,11 @@ class EventoController extends BaseController {
 
 		return dd( Evento::pesquisa( $expressao ));
 	}
+
+	public function exibir( $id ) {
+		
+		$evento = Evento::encontrar( $id );
+
+		
+	}
 }
