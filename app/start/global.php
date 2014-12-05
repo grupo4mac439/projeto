@@ -82,6 +82,9 @@ require app_path().'/filters.php';
 
 Cliente::init();
 Evento::init();
+Filme::init();
+Show::init();
+Peca::init();
 Ingresso::init();
 InstanciaEvento::init();
 Local::init();

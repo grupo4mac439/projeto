@@ -15,5 +15,6 @@ class ClienteController extends BaseController {
 			Autenticador::entrar($cliente);
 			return Redirect::to('/');
 		}
+		return -1;
 	}
 }

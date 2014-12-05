@@ -12,6 +12,7 @@
 |
 */
 
+
 Route::get('/', 'EventoController@home');
 
 Route::get('login', function() { return View::make('login'); });
@@ -25,3 +26,9 @@ Route::get('cadastro', function() { return View::make('cadastro'); });
 Route::post('cadastro', 'ClienteController@cadastro');
 
 Route::post('pesquisa', 'EventoController@pesquisa');
+
+Route::get('exibir/{id}', 'EventoController@exibir')->where('id', '[0-9]+');
+
+Route::get('pesquisa/avancada', function() { return View::make('avancado')->with('eventos', []); });
+
+Route::post('pesquisa/avancada', 'EventoController@pesquisaAvancada');

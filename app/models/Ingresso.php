@@ -1,19 +1,13 @@
 <?php
 
-use lib\DAO\SuperDAO;
+use lib\DAO\IngressoDAO;
 
 class Ingresso {
 
 	private static $dao;
 
-	static $tabela = 'Ingresso';
-
-	static $chave_primaria = 'id';
-
-	protected $campos = [ 'id_lugar' ];
-
 	public static function init() {
-		Ingresso::$dao = new SuperDAO('Ingresso');
+		Ingresso::$dao = new IngressoDAO();
 	}
 
 	public static function todos () {
@@ -28,45 +22,24 @@ class Ingresso {
 		return Ingresso::$dao->encontrarPorCampos( $campos, $valores);
 	}
 
-	private function atualizar( $id, $valores) {
-		return Ingresso::$dao->atualizar( $this->campos, $valores, $id );
+	private function atualizar() {
+		return Ingresso::$dao->atualizarIngresso( $this );
 	}
 
-	private function inserir($valores) {
-		
-		$id = Ingresso::$dao->inserir( $this->campos, $valores);
-		
-		if ($id == -1)
-			return -1;
-
-		$this->id = $id;
-
-		return 0;
+	private function inserir() {
+		return Ingresso::$dao->inserirIngresso( $this );
 	}
 
 	public function save() {
 
-		$valores = $this->pegaValores();
-
 		if( isset($this->id) ) 
-			return $this->atualizar($this->id, $valores);
+			return $this->atualizar();
 		
-		return $this->inserir($valores);
-
-	}
-
-	private function pegaValores() {
-		
-		$valores = array();
-
-		foreach ($this->campos as $campo)
-			array_push($valores, $this->{$campo});
-
-		return $valores;
+		return $this->inserir();
 	}
 
 	public function lugar() {
-		return Ingresso::$dao->pertenceA('Lugares', 'id_lugar', $this->id);
+		return Ingresso::$dao->lugar($this->id);
 	}
 
 }

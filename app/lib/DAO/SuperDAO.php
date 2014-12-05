@@ -4,24 +4,24 @@ use DB;
 
 class SuperDAO {
 
-	private $modelo;
+	protected $modelo;
 
-	private $tabela;
+	protected $tabela;
 
-	public function __construct($modelo) {
-		$this->modelo = $modelo;
-	}
+	protected $campos;
 
-	public function encontrarPorId( $id ) {
+	protected $chave_primaria;
+
+	public function encontrarPorId( $pk ) {
 		
 		$modelo = $this->modelo;
 
-		$tabela = $modelo::$tabela;
+		$tabela = $this->tabela;
 
-		$chave_primaria = $modelo::$chave_primaria;
+		$chave_primaria = $this->chave_primaria;
 
 		try {
-			$resultados =  DB::select('select * from ' . $tabela . ' where ' . $chave_primaria . ' = ?', array($id));
+			$resultados =  DB::select('select * from ' . $tabela . ' where ' . $chave_primaria . ' = ?', array($pk));
 		}
 		catch (\Illuminate\Database\QueryException $e) {
 			return -1; //operação falhou
@@ -39,7 +39,7 @@ class SuperDAO {
 		
 		$modelo = $this->modelo;
 
-		$tabela = $modelo::$tabela;
+		$tabela = $this->tabela;
 
 		$query = 'select * from ' . $tabela;
 
@@ -60,7 +60,7 @@ class SuperDAO {
 		
 		$modelo = $this->modelo;
 
-		$tabela = $modelo::$tabela;
+		$tabela = $this->tabela;
 
 		$query = 'select * from ' . $tabela . ' where';
 				
@@ -81,17 +81,17 @@ class SuperDAO {
 		if ( isset($limite) )
 			$query .= ' limit ' . $limite;
 
-		try {
+		// try {
 			$resultados = DB::select ( $query, $valores );	
-		}
-		catch (\Illuminate\Database\QueryException $e) {
-			return -1; //operação falhou
-		}
+		// }
+		// catch (\Illuminate\Database\QueryException $e) {
+		// 	return -1; //operação falhou
+		// }
 		
 		return CastModels::castModels($modelo, $resultados);
 	}
 
-	private function pegaCampoOperador(&$campos, &$campo, &$operador) {
+	protected function pegaCampoOperador(&$campos, &$campo, &$operador) {
 		
 		if ( is_int ( key ( $campos ) ) ) //não é indexado por chave
 		{
@@ -110,9 +110,9 @@ class SuperDAO {
 		
 		$modelo = $this->modelo;
 
-		$tabela = $modelo::$tabela;
+		$tabela = $this->tabela;
 
-		$chave_primaria = $modelo::$chave_primaria;
+		$chave_primaria = $this->chave_primaria;
 		
 		$query = 'update '. $tabela . ' set ';
 		
@@ -147,9 +147,9 @@ class SuperDAO {
 	
 		$modelo = $this->modelo;
 
-		$tabela = $modelo::$tabela;
+		$tabela = $this->tabela;
 
-		$chave_primaria = $modelo::$chave_primaria;
+		$chave_primaria = $this->chave_primaria;
 
 		$query = 'insert into ' . $tabela . ' ( ';
 		
@@ -180,18 +180,14 @@ class SuperDAO {
 		return array_shift($result)->id;
 	}
 
-	public function pertenceA( $modeloDono, $fk, $id ) {
+	public function pertenceA( $modeloDono, $tabelaDono, $chave_primariaDono, $fk, $id ) {
 		
 		$modelo = $this->modelo;
 
-		$tabela = $modelo::$tabela;		
+		$tabela = $this->tabela;
 
-		$chave_primaria = $modelo::$chave_primaria;
+		$chave_primaria = $this->chave_primaria;
 
-		$tabelaDono = $modeloDono::$tabela;
-
-		$chave_primariaDono = $modeloDono::$chave_primaria;
-		
 		$query = 'select * from ' . $tabelaDono . ' where ' . $chave_primariaDono . 
 					' in (select ' . $fk . ' from ' . $tabela . ' where ' . $chave_primaria . ' = ?)';
 		
@@ -210,10 +206,8 @@ class SuperDAO {
 		return CastModels::castModel($modeloDono, $resultado);		
 	}
 
-	public function temMuitos( $modeloObjeto, $fk, $id ) {
+	public function temMuitos( $modeloObjeto, $tabelaObjeto, $fk, $id ) {
 
-		$tabelaObjeto = $modeloObjeto::$tabela;
-		
 		$query = 'select * from ' . $tabelaObjeto . ' where ' . $fk . ' = ?';
 
 		try {
@@ -226,10 +220,8 @@ class SuperDAO {
 		return CastModels::castModels($modeloObjeto, $resultados);
 	}
 
-	public function temUm( $modeloObjeto, $fk, $id ) {
+	public function temUm( $modeloObjeto, $tabelaObjeto, $fk, $id ) {
 
-		$tabelaObjeto = $modeloObjeto::$tabela;
-		
 		$query = 'select * from ' . $tabelaObjeto . ' where ' . $fk . ' = ?';
 
 		try {
@@ -247,22 +239,14 @@ class SuperDAO {
 		return CastModels::castModel($modeloObjeto, $resultado);		
 	}
 
-	public function seleciona3Eventos( $tipo ) {
+	protected function pegaValores($objeto) {
+		
+		$valores = array();
 
-		$modelo = $this->modelo;
+		foreach ($this->campos as $campo)
+			array_push($valores, $objeto->{$campo});
 
-		$query = 'select distinct evento.id, nome, genero, classificacao, tipo, foto
-		          from evento, instancia_evento
-		          where tipo = ? and evento.id = id_evento and data > now()
-		          limit 3';
-
-		try {
-			$resultados = DB::select ( $query, array($tipo) );
-		}
-		catch(\Illuminate\Database\QueryException $e) {
-			return -1;  //operação falhou
-		}
-
-		return CastModels::castModels($modelo, $resultados);
+		return $valores;
 	}
+
 }

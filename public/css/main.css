@@ -26,6 +26,7 @@ html, body {
 	margin: auto;
 	margin-top: 5%;
 	width: 90%;
+	margin-bottom: 5%;
 }
 
 h1 {
@@ -41,8 +42,16 @@ li {
 }
 
 #header a {
+	width: 100%;
+	display: block;
 	font-size: 1.5em;
 	color: #222;
+}
+
+#header-search a{
+	font-size: 1em;
+	color:#222;
+	font-style: underline;
 }
 
 .header {

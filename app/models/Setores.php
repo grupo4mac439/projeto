@@ -1,19 +1,13 @@
 <?php
 
-use lib\DAO\SuperDAO;
+use lib\DAO\SetoresDAO;
 
 class Setores {
 
 	private static $dao;
 
-	static $tabela = 'Setores';
-
-	static $chave_primaria = 'id';
-
-	protected $campos = [ 'nome', 'cota_meia', 'preco', 'id_inst_evento' ];
-
 	public static function init() {
-		Setores::$dao = new SuperDAO('Setores');
+		Setores::$dao = new SetoresDAO();
 	}
 
 	public static function todos () {
@@ -28,49 +22,12 @@ class Setores {
 		return Setores::$dao->encontrarPorCampos( $campos, $valores);
 	}
 
-	private function atualizar( $id, $valores) {
-		return Setores::$dao->atualizar( $this->campos, $valores, $id );
-	}
-
-	private function inserir($valores) {
-		
-		$id = Setores::$dao->inserir( $this->campos, $valores);
-		
-		if ($id == -1)
-			return -1;
-
-		$this->id = $id;
-
-		return 0;
-	}
-
-	public function save() {
-
-		$valores = $this->pegaValores();
-
-		if( isset($this->id) ) 
-			return $this->atualizar($this->id, $valores);
-		
-		return $this->inserir($valores);
-
-	}
-
-	private function pegaValores() {
-		
-		$valores = array();
-
-		foreach ($this->campos as $campo)
-			array_push($valores, $this->{$campo});
-
-		return $valores;
-	}
-
 	public function lugares() {
-		return Setores::$dao->temMuitos('Lugares', 'id_setor', $this->id);
+		return Setores::$dao->lugares($this->id);
 	}
 
-	public function instanciaEvento() {
-		return Setores::$dao->pertenceA('Instancia_Evento', 'id_inst_evento', $this->id);
+	public function instancia_evento() {
+		return Setores::$dao->instancia_evento($this->id);
 	}
 
 }

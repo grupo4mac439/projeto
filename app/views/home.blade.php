@@ -2,7 +2,7 @@
 
 @section('head')
 	<title>HELUMA - Home</title>
-	<link rel="stylesheet" href="/css/home2.css">
+	<link rel="stylesheet" href="/css/home.css">
 	<link rel="stylesheet" href="/js/jquery.bxslider/jquery.bxslider.css">
 	<script src="/js/jquery-1.11.1.min.js"></script>
 	<script src="/js/jquery.bxslider/jquery.bxslider.min.js"></script>
@@ -47,8 +47,10 @@
 								<label for="sinopse">Sinopse:</label>
 								<p name="sinopse"> {{ $filme->filme()->sinopse }}</p>
 							</div>
+							<div class="info-p">
+								{{ link_to('exibir/' . $filme->id, 'Ver mais') }}
+							</div>
 						</div>
-
 					</div>
 				</li>
 			@endforeach
@@ -79,6 +81,9 @@
 								<label for="sinopse">Sinopse:</label>
 								<p name="sinopse"> {{ $show->show()->descricao }}</p>
 							</div>
+							<div class="info-p">
+								{{ link_to('exibir/' . $show->id, 'Ver mais') }}
+							</div>						
 						</div>
 					</div>
 				</li>
@@ -109,6 +114,9 @@
 							<div class="info-p">
 								<label for="sinopse">Sinopse:</label>
 								<p name="sinopse"> {{ $peca->peca()->sinopse }}</p>
+							</div>
+							<div class="info-p">
+								{{ link_to('exibir/' . $peca->id, 'Ver mais') }}
 							</div>
 						</div>
 					</div>

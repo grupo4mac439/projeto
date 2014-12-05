@@ -13,15 +13,16 @@
 					</span>
 				</div>
 				{{ Form::close() }}
+				<a href="/pesquisa/avancada">Pesquisa avançada</a>
 			</div>
 			<div id="text" class="header">
 				<ul>
 					@if ( Autenticador::logado() )
 						<li> {{ Autenticador::cliente()->nome }} </li>
-						<li><a href="sair">Sair</a></li>
+						<li><a href="/sair">Sair</a></li>
 					@else
-						<li><a href="login">Login</a></li>
-						<li><a href="cadastro">Cadastro</a></li>
+						<li><a href="/login">Login</a></li>
+						<li><a href="/cadastro">Cadastro</a></li>
 					@endif
 				</ul>		
 			</div>

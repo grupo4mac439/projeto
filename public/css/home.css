@@ -1,16 +1,12 @@
 .evento {
-	width: 80%;
 	margin: auto;
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 	padding: 25px;
-	text-align: center;
 }
 
 .evento-img-container {
-	height: 230px;
-	width: 50%;
 	margin: 0 auto;
-	display: inline-block;
+	margin-bottom: 20px;
 }
 
 .evento-img {
@@ -21,12 +17,10 @@
 }
 
 .info {
-	width: 50%;
 	margin: 0 auto;
 	padding-top: 20px;
 	padding-left: 20px;
 	text-align: justify;
-	display: inline-block;
 }
 
 .info-p {
@@ -37,6 +31,104 @@
 	display: inline-block;
 }
 
+.info-sinopse {
+	width: 100%;
+	margin: 0 auto;
+	clear: both;
+	text-align: justify;
+}
+
 h2 {
 	margin-bottom: 10px;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) 
+{
+
+	.evento {
+		width: 95%;
+		font-size: 20px;
+	}
+
+	.evento-img-container {
+		height: 280px;
+		width: 80%;
+	}
+
+	.info {
+		width: 80%;
+	}
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+	.evento {
+		width: 95%;
+	}
+
+	.evento-img-container {
+		height: 280px;
+		width: 400px;
+		margin: 0;
+		float: left;
+	}
+
+	.info {
+		margin: 0;
+		width: 300px;
+		float: right;
+	}
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+	.evento {
+		width: 95%;
+	}
+
+	.evento-img-container {
+		height: 280px;
+		width: 80%;
+	}
+
+	.info {
+		width: 80%;
+	}
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+	.evento {
+		width: 100%;
+	}
+
+	.evento-img-container {
+		height: 280px;
+		width: 45%;
+		display: inline-block;
+		float: left;
+	}
+
+	.evento-img {
+		width: 450px;
+		margin: 0 auto;		
+	}
+
+	.info {
+		width: 50%;
+		display: inline-block;
+		float: right;
+		margin-right: 20px;
+	}
+
 }

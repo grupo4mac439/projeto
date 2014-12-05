@@ -5,17 +5,17 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
-CREATE SCHEMA vendaingressos;
-ALTER SCHEMA vendaingressos OWNER TO mac439_grupo4_2014;
+CREATE SCHEMA heluma;
+ALTER SCHEMA heluma OWNER TO mac439_grupo4_2014;
 
-SET search_path = vendaingressos, pg_catalog;
+SET search_path = heluma, pg_catalog;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 CREATE TABLE artista (
-    id integer NOT NULL,
+    id serial NOT NULL,
     nome character varying(40) NOT NULL,
     nome_artistico character varying(20) NOT NULL,
     e_diretor boolean,
@@ -35,7 +35,7 @@ CREATE SEQUENCE artista_id_seq
 ALTER SEQUENCE artista_id_seq OWNED BY artista.id;
 
 CREATE TABLE cliente (
-    id integer NOT NULL,
+    id serial NOT NULL,
     login character varying(15),
     cpf character varying(12) NOT NULL,
     email character varying(40),
@@ -57,7 +57,7 @@ CREATE SEQUENCE cliente_id_seq
 ALTER SEQUENCE cliente_id_seq OWNED BY cliente.id;
 
 CREATE TABLE compra (
-    id integer NOT NULL,
+    id serial NOT NULL,
     id_cliente integer NOT NULL,
     data date NOT NULL,
     desconto integer,
@@ -76,7 +76,7 @@ CREATE SEQUENCE compra_id_seq
 ALTER SEQUENCE compra_id_seq OWNED BY compra.id;
 
 CREATE TABLE conjunto (
-    id integer NOT NULL,
+    id serial NOT NULL,
     nome character varying(30) NOT NULL
 );
 
@@ -92,7 +92,7 @@ CREATE SEQUENCE conjunto_id_seq
 ALTER SEQUENCE conjunto_id_seq OWNED BY conjunto.id;
 
 CREATE TABLE evento (
-    id integer NOT NULL,
+    id serial NOT NULL,
     nome character varying(20),
     genero character varying(20) NOT NULL,
     classificacao character varying(2) NOT NULL,
@@ -112,7 +112,7 @@ CREATE SEQUENCE evento_id_seq
 ALTER SEQUENCE evento_id_seq OWNED BY evento.id;
 
 CREATE TABLE filmes_existentes (
-    id integer NOT NULL,
+    id serial NOT NULL,
     nome character varying(40),
     ano_lancamento integer,
     id_diretor integer
@@ -130,7 +130,7 @@ CREATE SEQUENCE filmes_existentes_id_seq
 ALTER SEQUENCE filmes_existentes_id_seq OWNED BY filmes_existentes.id;
 
 CREATE TABLE ingresso (
-    id integer NOT NULL,
+    id serial NOT NULL,
     id_lugar integer
 );
 
@@ -146,7 +146,7 @@ CREATE SEQUENCE ingresso_id_seq
 ALTER SEQUENCE ingresso_id_seq OWNED BY ingresso.id;
 
 CREATE TABLE instancia_evento (
-    id integer NOT NULL,
+    id serial NOT NULL,
     data date NOT NULL,
     hora time without time zone NOT NULL,
     id_evento integer,
@@ -165,7 +165,7 @@ CREATE SEQUENCE instancia_evento_id_seq
 ALTER SEQUENCE instancia_evento_id_seq OWNED BY instancia_evento.id;
 
 CREATE TABLE local (
-    id integer NOT NULL,
+    id serial NOT NULL,
     endereco character varying(25),
     capacidade integer NOT NULL,
     tipo character(1) NOT NULL,
@@ -186,7 +186,7 @@ CREATE SEQUENCE local_id_seq
 ALTER SEQUENCE local_id_seq OWNED BY local.id;
 
 CREATE TABLE lugares (
-    id integer NOT NULL,
+    id serial NOT NULL,
     id_setor integer,
     status character varying(10) NOT NULL,
     CONSTRAINT lugares_status_check CHECK (((((status)::text = 'reservado'::text) OR ((status)::text = 'livre'::text)) OR ((status)::text = 'comprado'::text)))
@@ -217,7 +217,7 @@ CREATE TABLE lugares_marcados (
 
 
 CREATE TABLE lugares_naomarcados (
-    id integer NOT NULL,
+    id serial NOT NULL,
     id_lugar integer
 );
 
@@ -253,7 +253,7 @@ CREATE TABLE participacao_show (
 
 
 CREATE TABLE rede (
-    id integer NOT NULL,
+    id serial NOT NULL,
     nome character varying(15)
 );
 
@@ -277,7 +277,7 @@ CREATE TABLE reserva (
 
 
 CREATE TABLE salacinema (
-    id integer NOT NULL,
+    id serial NOT NULL,
     id_local integer NOT NULL,
     id_rede integer NOT NULL
 );
@@ -294,7 +294,7 @@ CREATE SEQUENCE salacinema_id_seq
 ALTER SEQUENCE salacinema_id_seq OWNED BY salacinema.id;
 
 CREATE TABLE setores (
-    id integer NOT NULL,
+    id serial NOT NULL,
     nome character varying(25) NOT NULL,
     cota_meia integer NOT NULL,
     preco numeric(6,2) NOT NULL,
@@ -318,6 +318,15 @@ CREATE TABLE show (
     descricao text
 );
 
+CREATE TABLE filme (
+    id_evento integer NOT NULL,
+    sinopse text
+);
+
+CREATE TABLE peca (
+    id_evento integer NOT NULL,
+    sinopse text
+);
 
 CREATE TABLE telefones_local (
     id_local integer NOT NULL,
@@ -440,5 +449,9 @@ ALTER TABLE ONLY setores
     ADD CONSTRAINT setores_id_inst_evento_fkey FOREIGN KEY (id_inst_evento) REFERENCES instancia_evento(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE ONLY show
     ADD CONSTRAINT show_id_evento_fkey FOREIGN KEY (id_evento) REFERENCES evento(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY filme
+    ADD CONSTRAINT filme_id_evento_fkey FOREIGN KEY (id_evento) REFERENCES evento(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY peca
+    ADD CONSTRAINT peca_id_evento_fkey FOREIGN KEY (id_evento) REFERENCES evento(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE ONLY telefones_local
     ADD CONSTRAINT telefones_local_id_local_fkey FOREIGN KEY (id_local) REFERENCES local(id) ON UPDATE CASCADE ON DELETE CASCADE;

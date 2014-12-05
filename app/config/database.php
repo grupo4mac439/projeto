@@ -75,6 +75,17 @@ return array(
 			'schema'   => 'heluma',
 		),
 
+		'local' => array(
+			'driver'   => 'pgsql',
+			'host'     => 'localhost',
+			'database' => 'mac439',
+			'username' => 'renato',
+			'password' => 'familia',
+			'charset'  => 'utf8',
+			'prefix'   => '',
+			'schema'   => 'heluma',
+		),
+
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
 			'host'     => 'localhost',

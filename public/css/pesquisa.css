@@ -1,0 +1,60 @@
+.evento {
+	height: 190px;
+	min-width: 450px;
+	width: 50%;
+	margin: auto;
+	margin-bottom: 20px;
+	padding: 25px;
+	border-radius: 5px;
+	box-shadow: 0 0 3px 3px #999;
+}
+
+.evento-img-container {
+	height: 140px;
+	width: 225px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	float: left;
+}
+
+.evento-img {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	border-radius: 50px;
+}
+
+.info {
+	margin: 0 auto;
+	padding-top: 20px;
+	padding-left: 20px;
+	text-align: justify;
+}
+
+.info-p {
+	width: 100%;
+}
+
+.info-p label, .info-p p {
+	display: inline-block;
+}
+
+.info-sinopse {
+	width: 100%;
+	margin: 0 auto;
+	clear: both;
+	text-align: justify;
+}
+
+h2 {
+	margin-bottom: 10px;
+}
+
+#pesquisa_avancada {
+	margin: auto;
+	width: 500px;
+	padding: 25px;
+	border-radius: 5px;
+	background-color: #ddd;
+	margin-bottom: 50px;
+}
