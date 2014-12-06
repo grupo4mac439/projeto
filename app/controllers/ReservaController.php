@@ -14,5 +14,6 @@ class ReservaController extends BaseController {
 			$lugar->save();
 		}
 		
+		return Redirect::to('instancia/' . $instancia_id);
 	}
 }
