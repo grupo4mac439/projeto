@@ -30,4 +30,12 @@ class Setores {
 		return Setores::$dao->instancia_evento($this->id);
 	}
 
+	public function lugares_disponiveis() {
+		return Setores::$dao->lugares_disponiveis($this->id);
+	}
+
+	public function lugares_livres($qtde){
+		return Setores::$dao->lugares_livres($this->id, $qtde);
+	}
+
 }

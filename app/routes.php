@@ -12,7 +12,6 @@
 |
 */
 
-
 Route::get('/', 'EventoController@home');
 
 Route::get('login', function() { return View::make('login'); });
@@ -32,3 +31,7 @@ Route::get('exibir/{id}', 'EventoController@exibir')->where('id', '[0-9]+');
 Route::get('pesquisa/avancada', function() { return View::make('avancado')->with('eventos', []); });
 
 Route::post('pesquisa/avancada', 'EventoController@pesquisaAvancada');
+
+Route::get('instancia/{id}', 'InstanciaEventoController@mostrar')->where('id', '[0-9]+');
+
+Route::post('reservar/{instancia_id}/{setor_id}', 'ReservaController@reservar');

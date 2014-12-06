@@ -57,6 +57,7 @@
 								<td> {{ $instancia->local()->nome }} </td>
 								<td> {{ $instancia->data }} </td>
 								<td> {{ $instancia->hora }} </td>
+								<td> {{ link_to('/instancia/' . $instancia->id, 'Visualizar') }}
 							</tr>
 							@endforeach
 						</tbody>

@@ -34,5 +34,21 @@ class InstanciaEvento {
 		return InstanciaEvento::$dao->local($this->id);
 	}
 
+	public function expirou() {
+
+		$hoje = strtotime(date('Y-m-d')); //yyyy-mm-dd
+		
+		$data = strtotime($this->data);
+		
+		$agora = strtotime(date('H:i:s'));
+
+		$hora = strtotime($this->hora);
+
+		if ( $hoje > $data || ($hoje == $data && $agora > $hora) ) {
+			return true;
+		}
+		
+		return false;
+	}
 
 }

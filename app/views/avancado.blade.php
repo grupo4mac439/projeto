@@ -41,7 +41,7 @@
 						)
 					}}
 				</div>
-					{{ Form::submit('Entrar', ['id' => 'cadastro-submit', 'class' => 'btn btn-default' ]) }}
+					{{ Form::submit('Entrar', ['id' => 'pesquisa-submit', 'class' => 'btn btn-default' ]) }}
 				{{ Form::close() }}
 			</div>
 			@foreach($eventos as $evento)

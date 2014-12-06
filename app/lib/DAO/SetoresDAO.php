@@ -20,4 +20,17 @@ class SetoresDAO extends SuperDAO {
 		return $this->pertenceA('InstanciaEvento', 'instancia_evento', 'id', 'id_inst_evento', $setor_id);
 	}
 
+	public function lugares_disponiveis($setor_id) {
+		$resultado = DB::select('select count(*) as total from lugares where status = ? and id_setor = ?', 
+			array('livre', $setor_id));
+
+		return array_shift($resultado)->total;
+	}
+
+	public function lugares_livres($setor_id, $qtde) {
+		$resultado = DB::select('select * from lugares where status = ? and id_setor = ? order by id limit ?', 
+			array('livre', $setor_id, $qtde));
+
+		return CastModels::castModels('Lugares', $resultado);
+	}
 }

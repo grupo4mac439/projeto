@@ -31,4 +31,15 @@ class LugaresDAO extends SuperDAO {
 		return $this->pertenceA('Setor', 'setor', 'id', 'id_setor', $lugar_id);
 	}
 
+	public function reservar($cliente, $instancia_evento, $id_lugar) {
+		$query = 'insert into reserva (id_cliente, id_lugar, data_ini, data_fim) values (?, ?, ?, ?)';
+		$data_ini = date('Y-m-d');
+		$data_fim = $instancia_evento->data;
+		$valores = [$cliente->id, $id_lugar, $data_ini, $data_fim];
+
+		DB::insert($query, $valores);
+
+		return 0;	
+	}
+
 }

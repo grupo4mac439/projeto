@@ -23,7 +23,12 @@ class Evento {
 	}
 
 	public function instancia_evento() {
-		return Evento::$dao->instancia_evento($this->id);
+		$instancias_retornadas = array();
+		$instancias = Evento::$dao->instancia_evento($this->id);
+		foreach($instancias as $instancia)
+			if (!$instancia->expirou())
+				array_push($instancias_retornadas, $instancia);
+		return $instancias_retornadas;
 	}
 
 	public function filme() {
